@@ -1,0 +1,111 @@
+{% extends 'adminnav.html' %}
+{% block content %}
+
+<style>
+    .table-container {
+        width: 95%;
+        max-width: 1200px; /* Set max width for large screens */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 20px;
+        overflow-x: auto; /* Enable horizontal scrolling for small screens */
+        text-align: center;
+        display: flex; /* Flexbox for centering */
+        justify-content: center; /* Horizontal centering */
+        align-items: center; /* Vertical centering */
+        flex-direction: column; /* Ensure elements stack vertically */
+       //* min-height: 80vh; /* Adjust height to center vertically in viewport */
+       /* background-color: #f9f9f9; /* Optional background */
+       /* border-radius: 8px; /* Rounded corners for container */
+       /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow */
+    }
+
+    table {
+        width: 100%; /* Full width inside container */
+        max-width: 800px; /* Limit the table width */
+        border-collapse: collapse;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    th, td {
+        padding: 15px;
+        border: 1px solid #ddd;
+        color: #333;
+        word-wrap: break-word; /* Handle long text */
+    }
+
+    th {
+        background-color: #0047ab;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    
+
+    h1 {
+        color: #0047ab;
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+</style>
+
+ 
+ 
+ 
+    <div class="container ">
+        {% for msg in messages %}
+        <h2 style="color: rgb(102, 3, 3);">{{ msg }}</h2>
+        {% endfor %}
+        
+    </div>
+    <div class="table-container">
+     <table style="border-collapse: collapse;" class="table-responsive">
+        <h1 ><u> <b>Approve and Disapprove</b></u></h1><br>
+         <thead>
+             
+             <tr>
+                 <th>User Type</th>
+                 <th>Name</th>
+                 <th>Email</th>
+                 <th colspan="2">Action</th>
+         
+             </tr>
+         </thead>
+         <tbody>
+               {% for data in user_data %}
+               <tr>
+                 <td>
+                    {% if data.user_type == "2" %} Teacher
+                    {% elif data.user_type == "3" %} Student
+                    {% else %} Unknown
+                    {% endif %}
+
+                 </td>
+                 <td>
+                     {{ data.first_name  }}  {{ data.last_name  }}
+                 </td>
+                 <td>{{ data.email }}</td>
+
+                 <td>
+                    {% if data.status == 0 %}
+                    <a href="{% url 'approve' data.id %}" class="btn btn-info">Approve</a>
+                    <a href="{% url 'disapprove' data.id %}" class="btn btn-danger">Disapprove</a>
+                    {% elif data.status == 1 %}
+                    <button class="btn btn-info" disabled>Approved</button>
+                    {% endif %}
+
+                 </td>
+                 
+ 
+               </tr>
+               {% endfor %}
+ 
+         </tbody>
+    
+      </table>
+     </div>
+
+
+
+
+{% endblock %}
